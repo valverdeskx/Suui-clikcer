@@ -30,7 +30,7 @@
             </button>
 
             <button class="shop-btn" id="upgrade-auto1-btn" onclick="buyUpgrade('auto1')">
-                🧑‍ can Про-Тренер (+1 в сек)<br>
+                🧑‍ Топ-Тренер (+1 в сек)<br>
                 <span class="price">Цена: 50 🪙</span>
             </button>
 
@@ -43,6 +43,65 @@
 
     <audio id="siuu-sound" src="https://www.myinstants.com/media/sounds/suiiiiiiiiiii.mp3" preload="auto"></audio>
 
-    <script src="script.js"></script>
+    <!-- Встроенный скрипт, который Сафари точно увидит -->
+    <script>
+        let coins = 0;
+        let coinsPerClick = 1;
+        let coinsPerSecond = 0;
+
+        let prices = {
+            click: 15,
+            auto1: 50,
+            auto2: 300
+        };
+
+        function clickBall() {
+            coins += coinsPerClick;
+            updateUI();
+            
+            const sound = document.getElementById("siuu-sound");
+            if (sound) {
+                sound.currentTime = 0; 
+                sound.play().catch(e => console.log("Звук ждет тапа"));
+            }
+        }
+
+        function buyUpgrade(type) {
+            if (coins >= prices[type]) {
+                coins -= prices[type]; 
+                
+                if (type === 'click') {
+                    coinsPerClick += 1; 
+                    prices.click = Math.round(prices.click * 1.5); 
+                } else if (type === 'auto1') {
+                    coinsPerSecond += 1; 
+                    prices.auto1 = Math.round(prices.auto1 * 1.5);
+                } else if (type === 'auto2') {
+                    coinsPerSecond += 10; 
+                    prices.auto2 = Math.round(prices.auto2 * 1.6);
+                }
+                
+                updateUI();
+            } else {
+                alert("Недостаточно монет! 🪙");
+            }
+        }
+
+        function updateUI() {
+            document.getElementById("coins-text").innerHTML = `Монеты: ${coins} 🪙`;
+            document.getElementById("cps-text").innerHTML = `Автокликер: +${coinsPerSecond}/сек ⚡`;
+            
+            document.getElementById("upgrade-click-btn").querySelector(".price").innerHTML = `Цена: ${prices.click} 🪙`;
+            document.getElementById("upgrade-auto1-btn").querySelector(".price").innerHTML = `Цена: ${prices.auto1} 🪙`;
+            document.getElementById("upgrade-auto2-btn").querySelector(".price").innerHTML = `Цена: ${prices.auto2} 🪙`;
+        }
+
+        setInterval(function() {
+            if (coinsPerSecond > 0) {
+                coins += coinsPerSecond; 
+                updateUI(); 
+            }
+        }, 1000);
+    </script>
 </body>
 </html>
