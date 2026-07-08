@@ -1,0 +1,67 @@
+// Переменные игры
+let coins = 0;
+let coinsPerClick = 1;
+let coinsPerSecond = 0;
+
+// Цены на улучшения
+let prices = {
+    click: 15,
+    auto1: 50,
+    auto2: 300
+};
+
+// Функция клика по мячу
+function clickBall() {
+    coins += coinsPerClick;
+    
+    // Воспроизводим легендарный звук SIUUU
+    const sound = document.getElementById("siuu-sound");
+    if (sound) {
+        sound.currentTime = 0; // Сбрасываем в начало, чтобы можно было быстро спамить кликами
+        sound.play().catch(e => console.log("Кликните по экрану для активации звуков"));
+    }
+    
+    updateUI();
+}
+
+// Функция покупки улучшений в магазине
+function buyUpgrade(type) {
+    if (coins >= prices[type]) {
+        coins -= prices[type]; // Списываем монеты
+        
+        if (type === 'click') {
+            coinsPerClick += 1; // Увеличиваем силу клика
+            prices.click = Math.round(prices.click * 1.5); // Повышаем цену на будущее
+        } else if (type === 'auto1') {
+            coinsPerSecond += 1; // Автокликер дает +1 монету в секунду
+            prices.auto1 = Math.round(prices.auto1 * 1.5);
+        } else if (type === 'auto2') {
+            coinsPerSecond += 10; // Автокликер помощнее дает +10 монет в секунду
+            prices.auto2 = Math.round(prices.auto2 * 1.6);
+        }
+        
+        updateUI();
+    } else {
+        alert("Недостаточно монет для этого трансфера! 🪙");
+    }
+}
+
+// Обновление цифр на экране
+function updateUI() {
+    document.getElementById("coins-text").innerHTML = `Монеты: ${coins} 🪙`;
+    document.getElementById("cps-text").innerHTML = `Автокликер: +${coinsPerSecond}/сек ⚡`;
+    
+    // Обновляем ценники на кнопках
+    document.getElementById("upgrade-click-btn").querySelector(".price").innerHTML = `Цена: ${prices.click} 🪙`;
+    document.getElementById("upgrade-auto1-btn").querySelector(".price").innerHTML = `Цена: ${prices.auto1} 🪙`;
+    document.getElementById("upgrade-auto2-btn").querySelector(".price").innerHTML = `Цена: ${prices.auto2} 🪙`;
+}
+
+// РАБОТА АВТОКЛИКЕРА: встроенный таймер
+// Срабатывает автоматически каждые 1000 миллисекунд (ровно 1 секунда)
+setInterval(function() {
+    if (coinsPerSecond > 0) {
+        coins += coinsPerSecond; // Каждую секунду капают пассивные монеты
+        updateUI(); // Обновляем экран
+    }
+}, 1000);
