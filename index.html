@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suui Clicker — Футбольный Кликер Онлайн</title>
+    <meta name="description" content="Залипательный футбольный кликер в стиле SIUUU! Нажимай на мяч, зарабатывай монеты и качай автокликер до максимума!">
+    <meta name="keywords" content="suui clicker, сиууу кликер, криштиану роналду игра, футбольный кликер, играть онлайн, автокликер, кликер с прокачкой">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="game-container">
+        <h1>🇵🇹 Suui Clicker</h1>
+        
+        <div class="score-container">
+            <h2 id="coins-text">Монеты: 0 🪙</h2>
+            <p id="cps-text">Автокликер: +0/сек ⚡</p>
+        </div>
+
+        <div class="click-zone">
+            <button id="ball-button" onclick="clickBall()">⚽</button>
+        </div>
+
+        <h3>Магазин прокачки 🛒</h3>
+        <div class="shop">
+            <button class="shop-btn" id="upgrade-click-btn" onclick="buyUpgrade('click')">
+                👟 Золотые Бутсы (+1 за клик)<br>
+                <span class="price">Цена: 15 🪙</span>
+            </button>
+
+            <button class="shop-btn" id="upgrade-auto1-btn" onclick="buyUpgrade('auto1')">
+                🧑‍ can Про-Тренер (+1 в сек)<br>
+                <span class="price">Цена: 50 🪙</span>
+            </button>
+
+            <button class="shop-btn" id="upgrade-auto2-btn" onclick="buyUpgrade('auto2')">
+                🏟️ Свой Стадион (+10 в сек)<br>
+                <span class="price">Цена: 300 🪙</span>
+            </button>
+        </div>
+    </div>
+
+    <audio id="siuu-sound" src="https://www.myinstants.com/media/sounds/suiiiiiiiiiii.mp3" preload="auto"></audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
